@@ -37,7 +37,7 @@ public class PostStringRequest extends BaseRequest {
     }
 
     @Override
-    public Request build(RequestBody requestBody) {
+    protected Request buildRequest(RequestBody requestBody) {
         return builder.post(requestBody).build();
     }
 }

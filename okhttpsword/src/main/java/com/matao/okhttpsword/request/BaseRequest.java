@@ -47,14 +47,26 @@ public abstract class BaseRequest {
 
     private Headers buildHeader() {
         Headers.Builder headerBuilder = new Headers.Builder();
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
-            headerBuilder.add(entry.getKey(), entry.getValue());
+        if (headers != null && !headers.isEmpty()) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                headerBuilder.add(entry.getKey(), entry.getValue());
+            }
         }
         return headerBuilder.build();
     }
 
     protected abstract RequestBody buildRequestBody();
 
-    public abstract Request build(RequestBody requestBody);
+    protected abstract Request buildRequest(RequestBody requestBody);
+
+    public Request generateRequest() {
+        RequestBody requestBody = buildRequestBody();
+        Request request = buildRequest(requestBody);
+        return request;
+    }
+
+    public RequestCall build() {
+        return new RequestCall(this);
+    }
 
 }

@@ -31,7 +31,7 @@ public class GetRequest extends BaseRequest {
      * @return
      */
     @Override
-    public Request build(RequestBody requestBody) {
+    protected Request buildRequest(RequestBody requestBody) {
         return builder.get().build();
     }
 }
