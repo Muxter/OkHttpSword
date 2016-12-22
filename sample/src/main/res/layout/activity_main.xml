@@ -10,8 +10,16 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <Button
-        android:id="@+id/bt_get"
+        android:id="@+id/bt_sword_get"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get" />
+        android:text="Sword Get"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_ok_http_get"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OKHttp Get"
+        android:textAllCaps="false" />
 </LinearLayout>

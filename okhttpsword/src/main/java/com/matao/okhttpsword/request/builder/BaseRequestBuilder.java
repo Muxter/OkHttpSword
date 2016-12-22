@@ -1,6 +1,6 @@
 package com.matao.okhttpsword.request.builder;
 
-import com.matao.okhttpsword.request.RequestCall;
+import com.matao.okhttpsword.request.BaseRequest;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by matao on 2016-12-21 14:49
  */
 
-public abstract class BaseRequestBuilder<T extends BaseRequestBuilder> {
+public abstract class BaseRequestBuilder<T extends BaseRequestBuilder, R extends BaseRequest> {
     protected String url;
     protected Object tag;
     protected Map<String, String> headers;
@@ -57,5 +57,6 @@ public abstract class BaseRequestBuilder<T extends BaseRequestBuilder> {
         return (T) this;
     }
 
-    public abstract RequestCall build();
+//    public abstract RequestCall build();
+    public abstract R build();
 }

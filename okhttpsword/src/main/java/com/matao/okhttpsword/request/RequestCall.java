@@ -3,8 +3,6 @@ package com.matao.okhttpsword.request;
 import com.matao.okhttpsword.OkHttpSword;
 import com.matao.okhttpsword.callback.BaseCallback;
 
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,20 +22,20 @@ public class RequestCall {
 
     private OkHttpClient newClient;
 
-    public RequestCall readTimeout(long readTimeout) {
-        this.readTimeout = readTimeout;
-        return this;
-    }
-
-    public RequestCall writeTimeout(long writeTimeout) {
-        this.writeTimeout = writeTimeout;
-        return this;
-    }
-
-    public RequestCall connectionTimeout(long connectTimeout) {
-        this.connectTimeout = connectTimeout;
-        return this;
-    }
+//    public RequestCall readTimeout(long readTimeout) {
+//        this.readTimeout = readTimeout;
+//        return this;
+//    }
+//
+//    public RequestCall writeTimeout(long writeTimeout) {
+//        this.writeTimeout = writeTimeout;
+//        return this;
+//    }
+//
+//    public RequestCall connectionTimeout(long connectTimeout) {
+//        this.connectTimeout = connectTimeout;
+//        return this;
+//    }
 
     public RequestCall(BaseRequest request) {
         this.request = request;
@@ -59,24 +57,25 @@ public class RequestCall {
         okHttpRequest = request.generateRequest();
 
         // 用户重新设置了timeout， 则使用新的OkHttpClient对象
-        if (readTimeout > 0 || writeTimeout > 0 || connectTimeout > 0) {
-            OkHttpClient.Builder newBuilder = OkHttpSword.init().getOkHttpClient().newBuilder();
-
-            if (readTimeout > 0) {
-                newBuilder.readTimeout(readTimeout, TimeUnit.MILLISECONDS);
-            }
-            if (writeTimeout > 0) {
-                newBuilder.writeTimeout(writeTimeout, TimeUnit.MILLISECONDS);
-            }
-            if (connectTimeout > 0) {
-                newBuilder.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS);
-            }
-
-            newClient = newBuilder.build();
-            call = newClient.newCall(okHttpRequest);
-        } else {
-            call = OkHttpSword.init().getOkHttpClient().newCall(okHttpRequest);
-        }
+//        if (readTimeout > 0 || writeTimeout > 0 || connectTimeout > 0) {
+//            OkHttpClient.Builder newBuilder = OkHttpSword.init().getOkHttpClient().newBuilder();
+//
+//            if (readTimeout > 0) {
+//                newBuilder.readTimeout(readTimeout, TimeUnit.MILLISECONDS);
+//            }
+//            if (writeTimeout > 0) {
+//                newBuilder.writeTimeout(writeTimeout, TimeUnit.MILLISECONDS);
+//            }
+//            if (connectTimeout > 0) {
+//                newBuilder.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS);
+//            }
+//
+//            newClient = newBuilder.build();
+//            call = newClient.newCall(okHttpRequest);
+//        } else {
+//            call = OkHttpSword.init().getOkHttpClient().newCall(okHttpRequest);
+//        }
+        call = OkHttpSword.init().getOkHttpClient().newCall(okHttpRequest);
         return call;
     }
 

@@ -54,7 +54,7 @@ public abstract class BaseCallback<T> {
 
     public abstract void onError(Call call, Exception e, int id);
 
-    public abstract void onResponse(T response, int id);
+    public abstract void onResponse(Call call, T response, int id);
 
 
     public static BaseCallback CALLBACK_DEFAULT = new BaseCallback() {
@@ -70,7 +70,7 @@ public abstract class BaseCallback<T> {
         }
 
         @Override
-        public void onResponse(Object response, int id) {
+        public void onResponse(Call call, Object response, int id) {
 
         }
     };

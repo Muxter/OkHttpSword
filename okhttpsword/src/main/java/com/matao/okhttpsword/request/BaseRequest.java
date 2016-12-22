@@ -65,7 +65,7 @@ public abstract class BaseRequest {
         return request;
     }
 
-    public RequestCall build() {
+    public RequestCall newRequestCall() {
         return new RequestCall(this);
     }
 

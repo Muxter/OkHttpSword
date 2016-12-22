@@ -1,5 +1,7 @@
 package com.matao.okhttpsword;
 
+import android.util.FloatProperty;
+
 import com.matao.okhttpsword.request.builder.GetBuilder;
 import com.matao.okhttpsword.callback.BaseCallback;
 import com.matao.okhttpsword.request.RequestCall;
@@ -33,6 +35,15 @@ public class OkHttpSword {
     }
 
     /**
+     * 用默认OkHttpClient的配置初始化OkHttpSword
+     *
+     * @return OkHttpSword实例
+     */
+    public static OkHttpSword init() {
+        return init(null);
+    }
+
+    /**
      * 用户可以手动配置OkHttpClient传入, 初始化OkHttpSword
      *
      * @param okHttpClient OkHttpClient实例
@@ -47,15 +58,6 @@ public class OkHttpSword {
             }
         }
         return mInstance;
-    }
-
-    /**
-     * 用默认OkHttpClient的配置初始化OkHttpSword
-     *
-     * @return OkHttpSword实例
-     */
-    public static OkHttpSword init() {
-        return init(null);
     }
 
     public Executor getExecutor() {
@@ -74,19 +76,71 @@ public class OkHttpSword {
         if (callback == null) {
             callback = BaseCallback.CALLBACK_DEFAULT;
         }
-        final BaseCallback finalCallback = callback;
         final int id = requestCall.getRequest().getId();
 
+        final BaseCallback finalCallback = callback;    // Java语法限制
         requestCall.getCall().enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                finalCallback.onError(call, e, id);
+                failureCallback(call, e, finalCallback, id);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                finalCallback.onResponse(response, id);
+                if (call.isCanceled()) {
+                    failureCallback(call, new IOException("Call has been canceled!"), finalCallback, id);
+                    return;
+                }
+
+                if (!finalCallback.validateReponse(response, id)) {
+                    failureCallback(call, new IOException("Response is invalidate. Error code: " + response.code()), finalCallback, id);
+                    return;
+                }
+
+                try {
+                    Object parsedResponse = finalCallback.parseNetworkResponse(response, id);
+                    successCallback(call, parsedResponse, finalCallback, id);
+                } catch (Exception e) {
+                    failureCallback(call, e, finalCallback, id);
+                } finally {
+                    if (response.body() != null) {
+                        response.close();
+                    }
+                }
             }
         });
+    }
+
+    private void failureCallback(final Call call, final Exception e, final BaseCallback callback, final int id) {
+        mPlatform.execute(new Runnable() {
+            @Override
+            public void run() {
+                callback.onError(call, e, id);
+                callback.onAfter(id);
+            }
+        });
+    }
+
+    private void successCallback(final Call call, final Object response, final BaseCallback callback, final int id) {
+        mPlatform.execute(new Runnable() {
+            @Override
+            public void run() {
+                callback.onResponse(call, response, id);
+                callback.onAfter(id);
+            }
+        });
+    }
+
+    public void cancelTag(Object tag) {
+        for (Call call : mOkHttpClient.dispatcher().queuedCalls()) {
+            if (tag.equals(call.request().tag())) {
+                call.cancel();
+            }
+        }
+        for (Call call : mOkHttpClient.dispatcher().runningCalls()) {
+            if (tag.equals(call.request().tag())) {
+                call.cancel();
+            }
+        }
     }
 }

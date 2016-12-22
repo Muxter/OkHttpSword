@@ -1,7 +1,6 @@
 package com.matao.okhttpsword.request.builder;
 
 import com.matao.okhttpsword.request.PostStringRequest;
-import com.matao.okhttpsword.request.RequestCall;
 
 import okhttp3.MediaType;
 
@@ -9,7 +8,7 @@ import okhttp3.MediaType;
  * Created by matao on 2016-12-21 18:00
  */
 
-public class PostStringBuilder extends BaseRequestBuilder<PostStringBuilder> {
+public class PostStringBuilder extends BaseRequestBuilder<PostStringBuilder, PostStringRequest> {
 
     protected MediaType contentType;
     protected String content;
@@ -25,7 +24,7 @@ public class PostStringBuilder extends BaseRequestBuilder<PostStringBuilder> {
     }
 
     @Override
-    public RequestCall build() {
-        return new PostStringRequest(url, tag, headers, params, id, contentType, content).build();
+    public PostStringRequest build() {
+        return new PostStringRequest(url, tag, headers, params, id, contentType, content);
     }
 }
