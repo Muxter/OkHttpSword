@@ -1,10 +1,10 @@
 package com.matao.okhttpsword;
 
-import android.util.FloatProperty;
-
-import com.matao.okhttpsword.request.builder.GetBuilder;
 import com.matao.okhttpsword.callback.BaseCallback;
 import com.matao.okhttpsword.request.RequestCall;
+import com.matao.okhttpsword.request.builder.GetBuilder;
+import com.matao.okhttpsword.request.builder.PostJsonBuilder;
+import com.matao.okhttpsword.request.builder.PostStringBuilder;
 import com.matao.okhttpsword.utils.Platform;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class OkHttpSword {
     /**
      * 用户可以手动配置OkHttpClient传入, 初始化OkHttpSword
      *
-     * @param okHttpClient OkHttpClient实例
+     * @param client OkHttpClient实例
      * @return OkHttpSword实例
      */
     public static OkHttpSword init(OkHttpClient client) {
@@ -70,6 +70,14 @@ public class OkHttpSword {
 
     public static GetBuilder get() {
         return new GetBuilder();
+    }
+
+    public static PostJsonBuilder postJson() {
+        return new PostJsonBuilder();
+    }
+
+    public static PostStringBuilder postString() {
+        return new PostStringBuilder();
     }
 
     public void execute(RequestCall requestCall, BaseCallback callback) {
