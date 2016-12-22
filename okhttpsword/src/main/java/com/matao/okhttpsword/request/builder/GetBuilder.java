@@ -1,4 +1,4 @@
-package com.matao.okhttpsword.builder;
+package com.matao.okhttpsword.request.builder;
 
 import android.net.Uri;
 

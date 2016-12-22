@@ -1,6 +1,6 @@
 package com.matao.okhttpsword;
 
-import com.matao.okhttpsword.builder.GetBuilder;
+import com.matao.okhttpsword.request.builder.GetBuilder;
 import com.matao.okhttpsword.callback.BaseCallback;
 import com.matao.okhttpsword.request.RequestCall;
 import com.matao.okhttpsword.utils.Platform;
