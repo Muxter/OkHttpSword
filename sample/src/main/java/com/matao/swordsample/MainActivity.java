@@ -8,9 +8,11 @@ import android.widget.Button;
 
 import com.matao.okhttpsword.OkHttpSword;
 import com.matao.okhttpsword.callback.StringCallback;
+import com.matao.okhttpsword.interceptor.LoggerInterceptor;
 import com.matao.okhttpsword.utils.MediaTypeUtil;
 
 import okhttp3.Call;
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         mBtGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OkHttpSword.init()
+                OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new LoggerInterceptor("OkHttpSword")).build();
+                OkHttpSword.init(client)
                         .get()
                         .url("https://github.com/robots.txt")
                         .id(1)
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         mBtPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OkHttpSword.init()
+                OkHttpSword.getInstance()
                         .postString()
                         .url("https://api.github.com/markdown/raw")
                         .contentType(MediaTypeUtil.MEDIA_TYPE_MARKDOWN)

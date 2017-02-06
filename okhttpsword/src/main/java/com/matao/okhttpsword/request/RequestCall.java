@@ -75,7 +75,7 @@ public class RequestCall {
 //        } else {
 //            call = OkHttpSword.init().getOkHttpClient().newCall(okHttpRequest);
 //        }
-        call = OkHttpSword.init().getOkHttpClient().newCall(okHttpRequest);
+        call = OkHttpSword.getInstance().getOkHttpClient().newCall(okHttpRequest);
         return call;
     }
 
@@ -86,6 +86,6 @@ public class RequestCall {
             callback.onBefore(okHttpRequest, request.id);
         }
 
-        OkHttpSword.init().execute(this, callback);
+        OkHttpSword.getInstance().execute(this, callback);
     }
 }

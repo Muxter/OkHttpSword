@@ -27,8 +27,14 @@ public class OkHttpSword {
 
     private OkHttpSword(OkHttpClient okHttpClient) {
         if (mOkHttpClient == null) {
+//            mOkHttpClient = new OkHttpClient.Builder()
+//                    .addNetworkInterceptor(new LoggerInterceptor())
+//                    .build();
             mOkHttpClient = new OkHttpClient();
         } else {
+//            mOkHttpClient = okHttpClient.newBuilder()
+//                    .addInterceptor(new LoggerInterceptor())
+//                    .build();
             mOkHttpClient = okHttpClient;
         }
         mPlatform = Platform.getPlatform();
@@ -39,7 +45,7 @@ public class OkHttpSword {
      *
      * @return OkHttpSword实例
      */
-    public static OkHttpSword init() {
+    public static OkHttpSword getInstance() {
         return init(null);
     }
 
